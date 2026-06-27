@@ -124,3 +124,6 @@ function renderMatches(matches) {
 // INIT
 // ================================
 loadProfile()
+
+// Esconder el loader cuando todo cargó
+document.getElementById('loader').classList.add('hidden')
