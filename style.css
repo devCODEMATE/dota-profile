@@ -258,3 +258,55 @@ body {
 .loader.hidden {
   display: none;
 }
+
+/* ================================
+   RESPONSIVE — Tablet (768px)
+================================ */
+@media (max-width: 768px) {
+
+  body {
+    padding: 1rem;
+  }
+
+  .stats-bar {
+    grid-template-columns: repeat(2, 1fr);
+    display: grid;
+  }
+
+  .heroes-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ================================
+   RESPONSIVE — Mobile (480px)
+================================ */
+@media (max-width: 480px) {
+
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero__avatar img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .hero__info h1 {
+    font-size: 1.5rem;
+  }
+
+  .stats-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .heroes-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .match-row {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
