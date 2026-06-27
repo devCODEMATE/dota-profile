@@ -1,0 +1,142 @@
+/* ================================
+   VARIABLES — Design System
+================================ */
+:root {
+  --bg-main: #0D0F14;
+  --bg-card: #161A24;
+  --accent: #C89B3C;
+  --accent-hover: #E8C96D;
+  --text-primary: #E2E8F0;
+  --text-secondary: #7B8FA6;
+  --win: #4ADE80;
+  --loss: #F87171;
+  --border: #2A3040;
+  --radius: 12px;
+}
+
+/* ================================
+   RESET & BASE
+================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+/* ================================
+   HEADER — Hero section
+================================ */
+.hero {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+}
+
+.hero__avatar img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid var(--accent);
+}
+
+.hero__info h1 {
+  font-size: 2rem;
+  color: var(--text-primary);
+}
+
+.hero__info p {
+  color: var(--accent);
+  font-size: 1rem;
+  margin-top: 0.25rem;
+}
+
+/* ================================
+   STATS BAR
+================================ */
+.stats-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat {
+  flex: 1;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.stat__number {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.stat__label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ================================
+   SECTION TITLE
+================================ */
+.section-title {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 1rem;
+}
+
+/* ================================
+   TOP HEROES
+================================ */
+.top-heroes {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.heroes-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+
+/* ================================
+   RECENT MATCHES
+================================ */
+.recent-matches {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+.matches-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
