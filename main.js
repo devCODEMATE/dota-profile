@@ -1,20 +1,54 @@
 // ================================
 // CONFIG
 // ================================
-const PLAYER_ID = '50491386'
 const BASE_URL = 'https://api.opendota.com/api'
+
+// ================================
+// ELEMENTOS DEL DOM
+// ================================
+const searchScreen = document.getElementById('search-screen')
+const profileScreen = document.getElementById('profile')
+const searchBtn = document.getElementById('search-btn')
+const backBtn = document.getElementById('back-btn')
+const steamInput = document.getElementById('steam-input')
+const loader = document.getElementById('loader')
+
+// ================================
+// EVENTOS
+// ================================
+searchBtn.addEventListener('click', () => {
+  const id = steamInput.value.trim()
+  if (!id) return
+  loadProfile(id)
+})
+
+steamInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    const id = steamInput.value.trim()
+    if (!id) return
+    loadProfile(id)
+  }
+})
+
+backBtn.addEventListener('click', () => {
+  profileScreen.style.display = 'none'
+  searchScreen.style.display = 'flex'
+  steamInput.value = ''
+})
 
 // ================================
 // FETCH DATA FROM API
 // ================================
-async function loadProfile() {
-  try {
+async function loadProfile(playerId) {
+  searchScreen.style.display = 'none'
+  loader.classList.remove('hidden')
 
+  try {
     const [playerRes, wlRes, heroesRes, matchesRes, heroListRes] = await Promise.all([
-      fetch(`${BASE_URL}/players/${PLAYER_ID}`),
-      fetch(`${BASE_URL}/players/${PLAYER_ID}/wl`),
-      fetch(`${BASE_URL}/players/${PLAYER_ID}/heroes?sort=games`),
-      fetch(`${BASE_URL}/players/${PLAYER_ID}/recentMatches`),
+      fetch(`${BASE_URL}/players/${playerId}`),
+      fetch(`${BASE_URL}/players/${playerId}/wl`),
+      fetch(`${BASE_URL}/players/${playerId}/heroes?sort=games`),
+      fetch(`${BASE_URL}/players/${playerId}/recentMatches`),
       fetch(`${BASE_URL}/heroes`)
     ])
 
@@ -29,8 +63,14 @@ async function loadProfile() {
     renderHeroes(heroes, heroList)
     renderMatches(matches)
 
+    loader.classList.add('hidden')
+    profileScreen.style.display = 'block'
+
   } catch (error) {
     console.error('Error loading data:', error)
+    loader.classList.add('hidden')
+    searchScreen.style.display = 'flex'
+    alert('Player not found. Check the Steam ID and try again.')
   }
 }
 
@@ -38,16 +78,13 @@ async function loadProfile() {
 // RENDER — Header
 // ================================
 function renderProfile(player) {
-  const name   = player.profile.personaname
-  const avatar = player.profile.avatarfull
-
-  document.getElementById('player-name').textContent = name
-  document.getElementById('player-avatar').src = avatar
-  document.getElementById('player-rank').textContent = 'Evolution'
+  document.getElementById('player-name').textContent = player.profile.personaname
+  document.getElementById('player-avatar').src = player.profile.avatarfull
+  document.getElementById('player-rank').textContent = '🎮 Dota 2 Player'
 }
 
 // ================================
-// RENDER — Stats bar
+// RENDER — Stats
 // ================================
 function renderStats(wl) {
   const wins   = wl.win
@@ -68,9 +105,7 @@ function renderHeroes(heroes, heroList) {
   const grid = document.getElementById('heroes-grid')
 
   const heroMap = {}
-  heroList.forEach(h => {
-    heroMap[h.id] = h.localized_name
-  })
+  heroList.forEach(h => { heroMap[h.id] = h.localized_name })
 
   const validHeroes = heroes.filter(h => h.games > 0).slice(0, 5)
 
@@ -81,11 +116,7 @@ function renderHeroes(heroes, heroList) {
 
     return `
       <div class="hero-card">
-        <img 
-          src="${imgUrl}" 
-          alt="${name}"
-          onerror="this.style.display='none'"
-        />
+        <img src="${imgUrl}" alt="${name}" onerror="this.style.display='none'" />
         <div class="hero-card__name">${name}</div>
         <div class="hero-card__stats">
           <span class="hero-card__games">${hero.games} games</span>
@@ -105,25 +136,14 @@ function renderMatches(matches) {
   list.innerHTML = matches.slice(0, 5).map(match => {
     const result   = match.radiant_win === (match.player_slot < 128) ? 'WIN' : 'LOSS'
     const color    = result === 'WIN' ? 'var(--win)' : 'var(--loss)'
-    const kills    = match.kills
-    const deaths   = match.deaths
-    const assists  = match.assists
     const duration = Math.floor(match.duration / 60) + 'm'
 
     return `
       <div class="match-row">
         <span class="match-result" style="color: ${color}">${result}</span>
-        <span class="match-kda">${kills} / ${deaths} / ${assists}</span>
+        <span class="match-kda">${match.kills} / ${match.deaths} / ${match.assists}</span>
         <span class="match-duration">${duration}</span>
       </div>
     `
   }).join('')
 }
-
-// ================================
-// INIT
-// ================================
-loadProfile()
-
-// Esconder el loader cuando todo cargó
-document.getElementById('loader').classList.add('hidden')

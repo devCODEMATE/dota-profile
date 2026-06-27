@@ -3,63 +3,84 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>devCODEMATE — Dota 2 Profile</title>
+    <title>Dota 2 Profile Search</title>
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
+
     <!-- LOADING SPINNER -->
-<div class="loader" id="loader">
-  <div class="loader__spinner"></div>
-  <p class="loader__text">Loading profile...</p>
-</div>
+    <div class="loader hidden" id="loader">
+      <div class="loader__spinner"></div>
+      <p class="loader__text">Loading profile...</p>
+    </div>
 
-    <!-- HEADER — Avatar + nombre + rank -->
-    <header class="hero">
-      <div class="hero__avatar">
-        <img id="player-avatar" src="" alt="Player avatar" />
+    <!-- SEARCH SCREEN -->
+    <div class="search-screen" id="search-screen">
+      <div class="search-card">
+        <h1 class="search-title">🎮 Dota 2 Profile</h1>
+        <p class="search-subtitle">Enter your Steam ID to view your stats</p>
+        <div class="search-box">
+          <input 
+            type="text" 
+            id="steam-input"
+            class="search-input" 
+            placeholder="Enter Steam ID... (e.g. 50491386)"
+          />
+          <button class="search-btn" id="search-btn">Search</button>
+        </div>
+        <p class="search-hint">
+          💡 Find your Steam ID at 
+          <a href="https://steamid.io" target="_blank">steamid.io</a>
+        </p>
       </div>
-      <div class="hero__info">
-        <h1 id="player-name">Loading...</h1>
-        <p id="player-rank">Rank</p>
-      </div>
-    </header>
+    </div>
 
-    <!-- STATS BAR — Matches, winrate, horas -->
-    <section class="stats-bar">
-      <div class="stat">
-        <span class="stat__number" id="total-matches">—</span>
-        <span class="stat__label">Matches</span>
-      </div>
-      <div class="stat">
-        <span class="stat__number" id="win-rate">—</span>
-        <span class="stat__label">Win Rate</span>
-      </div>
-      <div class="stat">
-        <span class="stat__number" id="wins">—</span>
-        <span class="stat__label">Wins</span>
-      </div>
-      <div class="stat">
-        <span class="stat__number" id="losses">—</span>
-        <span class="stat__label">Losses</span>
-      </div>
-    </section>
+    <!-- PROFILE — se muestra después de buscar -->
+    <div class="profile" id="profile" style="display:none">
 
-    <!-- TOP HEROES — Los 5 héroes más jugados -->
-    <section class="top-heroes">
-      <h2 class="section-title">Top Heroes</h2>
-      <div class="heroes-grid" id="heroes-grid">
-        <!-- Se llena con JavaScript -->
-      </div>
-    </section>
+      <button class="back-btn" id="back-btn">← Search again</button>
 
-    <!-- RECENT MATCHES — Últimas 5 partidas -->
-    <section class="recent-matches">
-      <h2 class="section-title">Recent Matches</h2>
-      <div class="matches-list" id="matches-list">
-        <!-- Se llena con JavaScript -->
-      </div>
-    </section>
+      <header class="hero">
+        <div class="hero__avatar">
+          <img id="player-avatar" src="" alt="Player avatar" />
+        </div>
+        <div class="hero__info">
+          <h1 id="player-name">Loading...</h1>
+          <p id="player-rank">Rank</p>
+        </div>
+      </header>
+
+      <section class="stats-bar">
+        <div class="stat">
+          <span class="stat__number" id="total-matches">—</span>
+          <span class="stat__label">Matches</span>
+        </div>
+        <div class="stat">
+          <span class="stat__number" id="win-rate">—</span>
+          <span class="stat__label">Win Rate</span>
+        </div>
+        <div class="stat">
+          <span class="stat__number" id="wins">—</span>
+          <span class="stat__label">Wins</span>
+        </div>
+        <div class="stat">
+          <span class="stat__number" id="losses">—</span>
+          <span class="stat__label">Losses</span>
+        </div>
+      </section>
+
+      <section class="top-heroes">
+        <h2 class="section-title">Top Heroes</h2>
+        <div class="heroes-grid" id="heroes-grid"></div>
+      </section>
+
+      <section class="recent-matches">
+        <h2 class="section-title">Recent Matches</h2>
+        <div class="matches-list" id="matches-list"></div>
+      </section>
+
+    </div>
 
     <script src="main.js"></script>
   </body>
