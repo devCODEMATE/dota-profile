@@ -140,3 +140,72 @@ body {
   flex-direction: column;
   gap: 0.75rem;
 }
+
+/* ================================
+   HERO CARDS
+================================ */
+.hero-card {
+  background: var(--bg-main);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  text-align: center;
+  transition: border-color 0.2s;
+}
+
+.hero-card:hover {
+  border-color: var(--accent);
+}
+
+.hero-card img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.hero-card__stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.hero-card__games {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.hero-card__wr {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* ================================
+   MATCH ROWS
+================================ */
+.match-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg-main);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.match-result {
+  font-weight: 700;
+  font-size: 0.9rem;
+  width: 40px;
+}
+
+.match-kda {
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.match-duration {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-left: auto;
+}
