@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>devCODEMATE — Dota 2 Profile</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+
+    <!-- HEADER — Avatar + nombre + rank -->
+    <header class="hero">
+      <div class="hero__avatar">
+        <img id="player-avatar" src="" alt="Player avatar" />
+      </div>
+      <div class="hero__info">
+        <h1 id="player-name">Loading...</h1>
+        <p id="player-rank">Rank</p>
+      </div>
+    </header>
+
+    <!-- STATS BAR — Matches, winrate, horas -->
+    <section class="stats-bar">
+      <div class="stat">
+        <span class="stat__number" id="total-matches">—</span>
+        <span class="stat__label">Matches</span>
+      </div>
+      <div class="stat">
+        <span class="stat__number" id="win-rate">—</span>
+        <span class="stat__label">Win Rate</span>
+      </div>
+      <div class="stat">
+        <span class="stat__number" id="wins">—</span>
+        <span class="stat__label">Wins</span>
+      </div>
+      <div class="stat">
+        <span class="stat__number" id="losses">—</span>
+        <span class="stat__label">Losses</span>
+      </div>
+    </section>
+
+    <!-- TOP HEROES — Los 5 héroes más jugados -->
+    <section class="top-heroes">
+      <h2 class="section-title">Top Heroes</h2>
+      <div class="heroes-grid" id="heroes-grid">
+        <!-- Se llena con JavaScript -->
+      </div>
+    </section>
+
+    <!-- RECENT MATCHES — Últimas 5 partidas -->
+    <section class="recent-matches">
+      <h2 class="section-title">Recent Matches</h2>
+      <div class="matches-list" id="matches-list">
+        <!-- Se llena con JavaScript -->
+      </div>
+    </section>
+
+    <script src="main.js"></script>
+  </body>
+</html>
