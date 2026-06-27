@@ -10,23 +10,23 @@ const BASE_URL = 'https://api.opendota.com/api'
 async function loadProfile() {
   try {
 
-    // Llamamos 3 endpoints al mismo tiempo
-    const [playerRes, wlRes, heroesRes, matchesRes] = await Promise.all([
+    const [playerRes, wlRes, heroesRes, matchesRes, heroListRes] = await Promise.all([
       fetch(`${BASE_URL}/players/${PLAYER_ID}`),
       fetch(`${BASE_URL}/players/${PLAYER_ID}/wl`),
       fetch(`${BASE_URL}/players/${PLAYER_ID}/heroes?sort=games`),
-      fetch(`${BASE_URL}/players/${PLAYER_ID}/recentMatches`)
+      fetch(`${BASE_URL}/players/${PLAYER_ID}/recentMatches`),
+      fetch(`${BASE_URL}/heroes`)
     ])
 
-    const player  = await playerRes.json()
-    const wl      = await wlRes.json()
-    const heroes  = await heroesRes.json()
-    const matches = await matchesRes.json()
+    const player   = await playerRes.json()
+    const wl       = await wlRes.json()
+    const heroes   = await heroesRes.json()
+    const matches  = await matchesRes.json()
+    const heroList = await heroListRes.json()
 
-    // Mandamos los datos a cada función
     renderProfile(player)
     renderStats(wl)
-    renderHeroes(heroes)
+    renderHeroes(heroes, heroList)
     renderMatches(matches)
 
   } catch (error) {
@@ -64,27 +64,32 @@ function renderStats(wl) {
 // ================================
 // RENDER — Top Heroes
 // ================================
-function renderHeroes(heroes) {
+function renderHeroes(heroes, heroList) {
   const grid = document.getElementById('heroes-grid')
 
-  // Filtramos héroes con al menos 1 partida
+  const heroMap = {}
+  heroList.forEach(h => {
+    heroMap[h.id] = h.localized_name
+  })
+
   const validHeroes = heroes.filter(h => h.games > 0).slice(0, 5)
 
   grid.innerHTML = validHeroes.map(hero => {
     const winRate = ((hero.win / hero.games) * 100).toFixed(1)
-    // URL correcta usando el localized_name
-    const imgUrl = `https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/${hero.hero_id}.png`
+    const name    = heroMap[hero.hero_id] || 'Unknown'
+    const imgUrl  = `https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/${hero.hero_id}.png`
 
     return `
       <div class="hero-card">
         <img 
           src="${imgUrl}" 
-          alt="Hero ${hero.hero_id}"
+          alt="${name}"
           onerror="this.style.display='none'"
         />
+        <div class="hero-card__name">${name}</div>
         <div class="hero-card__stats">
           <span class="hero-card__games">${hero.games} games</span>
-          <span class="hero-card__wr" style="color: var(--win)">${winRate}%</span>
+          <span class="hero-card__wr">${winRate}%</span>
         </div>
       </div>
     `
@@ -98,11 +103,11 @@ function renderMatches(matches) {
   const list = document.getElementById('matches-list')
 
   list.innerHTML = matches.slice(0, 5).map(match => {
-    const result  = match.radiant_win === (match.player_slot < 128) ? 'WIN' : 'LOSS'
-    const color   = result === 'WIN' ? 'var(--win)' : 'var(--loss)'
-    const kills   = match.kills
-    const deaths  = match.deaths
-    const assists = match.assists
+    const result   = match.radiant_win === (match.player_slot < 128) ? 'WIN' : 'LOSS'
+    const color    = result === 'WIN' ? 'var(--win)' : 'var(--loss)'
+    const kills    = match.kills
+    const deaths   = match.deaths
+    const assists  = match.assists
     const duration = Math.floor(match.duration / 60) + 'm'
 
     return `

@@ -209,3 +209,11 @@ body {
   font-size: 0.85rem;
   margin-left: auto;
 }
+
+.hero-card__name {
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  margin-top: 0.5rem;
+  text-align: center;
+}
