@@ -105,22 +105,32 @@ function renderHeroes(heroes, heroList) {
   const grid = document.getElementById('heroes-grid')
 
   const heroMap = {}
-  heroList.forEach(h => { heroMap[h.id] = h.localized_name })
+  heroList.forEach(h => {
+    heroMap[h.id] = {
+      name: h.localized_name,
+      slug: h.name.replace('npc_dota_hero_', '')
+    }
+  })
 
   const validHeroes = heroes.filter(h => h.games > 0).slice(0, 5)
 
   grid.innerHTML = validHeroes.map(hero => {
-    const winRate = ((hero.win / hero.games) * 100).toFixed(1)
-    const name    = heroMap[hero.hero_id] || 'Unknown'
-    const imgUrl  = `https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/${hero.hero_id}.png`
+    const winRate  = ((hero.win / hero.games) * 100).toFixed(1)
+    const heroData = heroMap[hero.hero_id] || { name: 'Unknown', slug: '' }
+    const imgUrl   = `https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/${heroData.slug}.png`
+    const wrColor  = parseFloat(winRate) >= 50 ? 'var(--win)' : 'var(--loss)'
 
     return `
       <div class="hero-card">
-        <img src="${imgUrl}" alt="${name}" onerror="this.style.display='none'" />
-        <div class="hero-card__name">${name}</div>
-        <div class="hero-card__stats">
-          <span class="hero-card__games">${hero.games} games</span>
-          <span class="hero-card__wr">${winRate}%</span>
+        <div class="hero-card__image">
+          <img src="${imgUrl}" alt="${heroData.name}" onerror="this.src=''" />
+        </div>
+        <div class="hero-card__body">
+          <div class="hero-card__name">${heroData.name}</div>
+          <div class="hero-card__stats">
+            <span class="hero-card__games">${hero.games} games</span>
+            <span class="hero-card__wr" style="color: ${wrColor}">${winRate}%</span>
+          </div>
         </div>
       </div>
     `
